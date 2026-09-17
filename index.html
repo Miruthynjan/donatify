@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Donatify — Full-Stack Charitable Crowdfunding & In-Kind Supplies Marketplace connecting Donors, Organizers, and Admins.">
+  <title>Donatify — Crowdfunding & In-Kind Supplies Marketplace</title>
+
+  <!-- Modern Typography from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* Inline Fallback Loading Screen Style */
+    #donatify-preloader {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 50% 20%, #1e293b 0%, #0b1120 100%);
+      color: #f8fafc;
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      text-align: center;
+      padding: 24px;
+    }
+    .loader-pulse {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 0 35px rgba(16, 185, 129, 0.45);
+      animation: pulseGlow 1.8s infinite alternate ease-in-out;
+      margin-bottom: 20px;
+    }
+    @keyframes pulseGlow {
+      0% { transform: scale(0.94); box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
+      100% { transform: scale(1.06); box-shadow: 0 0 45px rgba(6, 182, 212, 0.6); }
+    }
+    .spinner-bar {
+      width: 200px;
+      height: 4px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 18px 0;
+      position: relative;
+    }
+    .spinner-bar::after {
+      content: '';
+      position: absolute;
+      left: -50%;
+      height: 100%;
+      width: 50%;
+      background: linear-gradient(90deg, #10b981, #06b6d4);
+      border-radius: 4px;
+      animation: barMove 1.4s infinite ease-in-out;
+    }
+    @keyframes barMove {
+      0% { left: -50%; }
+      100% { left: 100%; }
+    }
+    #error-box {
+      display: none;
+      max-width: 550px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 20px;
+      text-align: left;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mount Root for React Application with Sleek Fallback Preloader -->
+  <div id="root">
+    <div id="donatify-preloader">
+      <div class="loader-pulse">🤝</div>
+      <h2 style="margin: 0; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.8rem; background: linear-gradient(135deg, #34d399, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        DONATIFY MARKETPLACE
+      </h2>
+      <p style="color: #94a3b8; font-size: 0.95rem; margin-top: 8px; max-width: 420px;">
+        Connecting Donors, Organizers, and Global Non-Profits for Financial and In-Kind Humanitarian Aid.
+      </p>
+      <div class="spinner-bar"></div>
+      <span style="font-size: 0.8rem; color: #64748b;">Initializing application interface...</span>
+
+      <div id="error-box">
+        <strong style="color: #fca5a5; display: block; margin-bottom: 6px;">⚠️ Notice:</strong>
+        <span id="error-msg" style="color: #fecaca;"></span>
+        <div style="margin-top: 14px; display: flex; gap: 10px;">
+          <button onclick="window.location.reload()" style="background: #10b981; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600;">
+            Retry Reload
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Global Error Catcher to guide the user in case of script blocking
+    window.onerror = function(msg, url, line) {
+      var box = document.getElementById('error-box');
+      var err = document.getElementById('error-msg');
+      if (box && err) {
+        box.style.display = 'block';
+        err.innerText = msg + ' (Line: ' + line + ')';
+      }
+    };
+  </script>
+
+  <!-- React 18 & ReactDOM 18: Loads offline local files first with CDN fallbacks -->
+  <script src="vendor/react.min.js"></script>
+  <script>
+    if (!window.React) {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"><\/script>');
+    }
+  </script>
+
+  <script src="vendor/react-dom.min.js"></script>
+  <script>
+    if (!window.ReactDOM) {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"><\/script>');
+    }
+  </script>
+
+  <!-- Pre-compiled Standalone React App (Zero-Babel overhead, Instant Execution) -->
+  <script src="app.compiled.js"></script>
+
+</body>
+</html>
